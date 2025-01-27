@@ -84,6 +84,10 @@ const login = async(req, res) => {
     try{
         const {email, password} = req.body;
 
+        if (!email || !password) {
+            throw new Error("Please fill in all fields");
+        }
+
         const user = await User.findOne({email})
         if(!user){
           return res.status(400).json({success: false, message: "Email is not yet registered"});

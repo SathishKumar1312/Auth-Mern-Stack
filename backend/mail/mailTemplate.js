@@ -41,7 +41,7 @@ const VERIFICATION_SUCCESS_EMAIL_TEMPLATE = `
     <h1 style="color: white; margin: 0;">Email Verification Successful</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-    <p>Hi <span style="color:#140d80">{userName}</span>,</p>
+    <p>Hi {userName},</p>
     <p>Thank you for verifying your email address. Your email verification was successful and your account is now fully activated.</p>
     <p>If you have any questions or need further assistance, feel free to contact our support team.</p>
     <p>Best regards,<br>Sathish Kumar</p>
@@ -70,7 +70,7 @@ const PASSWORD_RESET_SUCCESS_TEMPLATE = `
     <h1 style="color: white; margin: 0;">Password Reset Successful</h1>
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-    <p>Hello,<span style="color:#140d80">{userName}</span></p>
+    <p>Hello,{userName}</p>
     <p>We're writing to confirm that your password has been successfully reset.</p>
     <div style="text-align: center; margin: 30px 0;">
       <div style="background-color: #073290; color: white; width: 50px; height: 50px; line-height: 50px; border-radius: 50%; display: inline-block; font-size: 30px;">

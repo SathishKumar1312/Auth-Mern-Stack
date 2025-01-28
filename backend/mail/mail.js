@@ -41,7 +41,7 @@ async function verificationSuccessEmail(name, email) {
         from: process.env.MAIL_USER,
         to: email,
         subject: "Your account has been verified",
-        html: mailTemplate.VERIFICATION_SUCCESS_EMAIL_TEMPLATE.replace('{username}', name)
+        html: mailTemplate.VERIFICATION_SUCCESS_EMAIL_TEMPLATE.replace('{userName}', name)
     };
 
     await sendEmail(mailOptions);
@@ -53,7 +53,7 @@ async function passwordResetEmail(email, resetToken) {
         from: process.env.MAIL_USER,
         to: email,
         subject: "Reset your Password",
-        html: mailTemplate.PASSWORD_RESET_REQUEST_TEMPLATE.replace('{resetURL}', `${process.env.CLIENT_URL}/reset-password/${resetToken}`)
+        html: mailTemplate.PASSWORD_RESET_REQUEST_TEMPLATE.replace('{resetURL}', `https://auth-mern-stack-kqmn.onrender.com/reset-password/${resetToken}`)
     };
 
     await sendEmail(mailOptions);

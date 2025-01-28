@@ -18,11 +18,11 @@ const ResetPasswordPage = () => {
 		e.preventDefault();
 
 		if (password !== confirmPassword) {
-			useAuthStore.error = "Passwords do not match";
+			toast.error("Password did not match with confirm password");
 			return;
 		}
 		try {
-			await resetPassword(token, password, confirmPassword);
+			await resetPassword(token, password);
 
 			toast.success("Password reset successfully, redirecting to login page...");
 			setTimeout(() => {

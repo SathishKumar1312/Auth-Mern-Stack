@@ -39,7 +39,7 @@ const signup = async (req, res) => {
                 email,
                 password: hashedPassword,
                 verificationToken,
-                verificationTokenExpiresAt : Date.now() + 24 * 60 * 60 * 1000
+                verificationTokenExpiresAt : Date.now() +  15 * 60 * 1000
             })
 
             await user.save();
@@ -77,7 +77,7 @@ const verifyEmail = async(req,res) => {
     await user.save();
     await verificationSuccessEmail(user.name,user.email)
 
-    res.status(200).json({success:true,message:"Account verification successfull"})
+    res.status(200).json({success:true,message:"Account verification successfull", user:{...user._doc, password: undefined}})
 }
 
 const login = async(req, res) => {
@@ -126,7 +126,7 @@ const forgotPassword = async(req,res)=>{
         }
 
         const resetToken = crypto.randomBytes(20).toString('hex');
-        const resetTokenExpiresAt = Date.now() + 15 * 60 * 1000; //
+        const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000;
 
         user.resetPasswordToken = resetToken;
         user.resetPasswordExpiresAt = resetTokenExpiresAt;
@@ -143,7 +143,7 @@ const forgotPassword = async(req,res)=>{
 
 const resetPassword = async(req,res)=>{
     try{
-        const {password, confirmPassword} = req.body;
+        const {password} = req.body;
         const {resetToken} = req.params;
 
         const user = await User.findOne({
@@ -154,9 +154,6 @@ const resetPassword = async(req,res)=>{
         if(!user){
             return res.status(400).json({success: false, message: "Invalid token or expired"});
         }
-        if(password !== confirmPassword){
-            return res.status(400).json({success: false, message: "Password does not match with confirm password"});
-        }
 
         const hashedPassword = await bcrypt.hash(password,10);
         user.password = hashedPassword;
@@ -166,7 +163,7 @@ const resetPassword = async(req,res)=>{
 
         await passwordResetSuccessEmail(user.email, user.name);
 
-        res.status(200).json({success: true, message: "Password reset successfully", data: user})
+        res.status(200).json({success: true, message: "Password reset successfully", user: {...user._doc,password: undefined}})
     } catch(e){
         res.status(400).json({success: false, message: e.message})
     }
@@ -185,7 +182,7 @@ const checkAuth = async(req,res)=>{
         if(!user){
             return res.status(401).json({success: false, message: "Unauthorized"});
         }
-        res.status(200).json({success: true, user})
+        res.status(200).json({success: true, user:{...user._doc, password: undefined}})
     } catch(e){
         res.status(400).json({success: false, message: e.message})
     }
